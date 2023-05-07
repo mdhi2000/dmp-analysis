@@ -164,7 +164,7 @@ def main2():
       pass
     if i % 100 == 0:
       save(_songs, f"songs.local")
-      print("Saved. count: ", len(_songs))
+      print("Saved.i: ",i, " ,count: ", len(_songs))
   save(_songs, 'songs')
 
   print()
