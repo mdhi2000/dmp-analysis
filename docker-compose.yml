@@ -4,7 +4,6 @@ services:
     container_name: "dmp-data"
     build:
       context: .
-    restart: no
     volumes:
       - "./:/usr/src/app"
     environment:
