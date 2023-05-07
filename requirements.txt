@@ -1,0 +1,10 @@
+certifi==2022.12.7
+chardet==4.0.0
+idna==2.10
+pydantic==1.8.1
+PySocks==1.7.1
+radiojavanapi==0.5.0
+requests==2.25.1
+requests-toolbelt==0.9.1
+typing_extensions==4.5.0
+urllib3==1.26.15
