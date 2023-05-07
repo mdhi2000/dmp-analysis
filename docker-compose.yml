@@ -7,3 +7,5 @@ services:
     restart: always
     volumes:
       - "./:/usr/src/app"
+    environment:
+      - PYTHONUNBUFFERED=1
