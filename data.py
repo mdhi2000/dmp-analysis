@@ -162,7 +162,7 @@ def main2():
     except:
       print("NotFound")
     if i % 100 == 0:
-      save(_songs, 'songs')
+      save(_songs, 'songs.local')
       print("Saved. count: ", len(_songs))
   save(_songs, 'songs')
 
