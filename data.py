@@ -154,13 +154,14 @@ def main2():
   client = Client()
   
   for i in range(127000):
-    print(i)
+    # print(i)
     try:
       if i not in _songs:
         song = client.get_song_by_id(i)
         (_songs, _artists, songs_to_get) = get_song(song)
     except:
-      print("NotFound")
+      # print("NotFound")
+      pass
     if i % 100 == 0:
       save(_songs, f"songs.local")
       print("Saved. count: ", len(_songs))
