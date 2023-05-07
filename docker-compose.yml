@@ -1,6 +1,7 @@
 version: '3'
 services:
   dmp-data:
+    container_name: "dmp-data"
     build:
       context: .
     restart: always
