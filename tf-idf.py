@@ -58,45 +58,55 @@ def main():
     
   songs_lyric_array = list(songs_lyric.values())
   
-  df = pd.DataFrame(songs_lyric_array, columns=['lyric'])
+  # df = pd.DataFrame(songs_lyric_array, columns=['lyric'])
   
-  df['cleaned'] = df['lyric'].apply(lambda x: preprocess(x))
+  # df['cleaned'] = df['lyric'].apply(lambda x: preprocess(x))
   
   # lyrics = []
   
   # # preprocess(songs_lyric_array[0]['lyric'])
   # for lyric in songs_lyric_array:
   #   lyrics.append(preprocess(lyric))
+  
+  df = pd.read_pickle('songs_lyrics.pkl')
+  
+  print(df['cleaned'][0])
     
   vectorizer = TfidfVectorizer(sublinear_tf=True, min_df=5, max_df=0.95)
-  X = vectorizer.fit_transform(df['cleaned'])
+  X = vectorizer.fit_transform(df['lyric'])
   
-  kmeans = KMeans(n_clusters=10, random_state=42)
+  kmeans = KMeans(n_clusters=465, random_state=42)
   
-  dbscan = DBSCAN(min_samples=20)
+  dbscan = DBSCAN(5,min_samples=20)
+  dbscan.fit(X)
 
 
   kmeans.fit(X)
   clusters = kmeans.labels_
   
-  for i in range(len(songs_lyric_array)):
-    songs_lyric_array[i]['kmeans_label'] = clusters[i]
+  print(type(clusters[0]))
+  print(type(dbscan.labels_[0]))
   
-  with open('./processed_songs.local.json') as f:
+  for i in range(len(songs_lyric_array)):
+    songs_lyric_array[i]['kmeans_label'] = int(clusters[i])
+    songs_lyric_array[i]['dbscan_label'] = int(dbscan.labels_[i])
+  
+  with open('./processed_songs.local.json','w') as f:
     json.dump(songs_lyric_array, f)
   
   print(kmeans.cluster_centers_)
 
 def eps():
-  with open('./songs_lyric.local.json') as slf:
-    songs_lyric = json.load(slf)
+  # with open('./songs_lyric.local.json') as slf:
+  #   songs_lyric = json.load(slf)
 
-  songs_lyric_array = list(songs_lyric.values())
+  # songs_lyric_array = list(songs_lyric.values())
 
-  df = pd.DataFrame(songs_lyric_array, columns=['lyric'])
+  # df = pd.DataFrame(songs_lyric_array, columns=['lyric'])
+  df = pd.read_pickle('songs_lyrics.pkl')
   neighbors = NearestNeighbors(n_neighbors=20)
-  neighbors_fit = neighbors.fit(df['lyric'])
-  distances, indices = neighbors_fit.kneighbors(df['lyric'])
+  neighbors_fit = neighbors.fit(df['cleaned'])
+  distances, indices = neighbors_fit.kneighbors(df['cleaned'])
   
   distances = np.sort(distances, axis=0)
 
@@ -115,6 +125,50 @@ def dump_dataframe():
   
   df.to_pickle('songs_lyrics.pkl')
   
+  
+
+
+def check_json_file():
+  with open('./processed_songs.local.json') as f:
+    songs = json.load(f)
+    
+  sr = {}
+  print('kmeans:\n')
+  for song in songs:
+    if song['kmeans_label'] not in sr:
+      sr[song['kmeans_label']] = [
+        song,
+      ]
+      
+    else:
+      sr[song['kmeans_label']].append(song)
+      
+  sr={}
+  print('dbscan')
+  for song in songs:
+   
+    if song['dbscan_label'] not in sr:
+      sr[song['dbscan_label']] = [
+        song,
+      ]
+      
+    else:
+      sr[song['dbscan_label']].append(song)
+  
+  # print(len(list(sr.values())))
+  print(sr.keys())
+  
+  for i in list(sr.items())[:10]:
+    print()
+    print()   
+    for song in i:
+      print(type(song))
+      print(song['name'], ', ', song['artist'])
+    print(len(i))
+      
+  print(len(sr))
 
 if __name__ == '__main__':
-  dump_dataframe()
+  main()
+  check_json_file()
+  # eps()
