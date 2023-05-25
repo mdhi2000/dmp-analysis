@@ -7,7 +7,8 @@ RUN apk add --update make cmake gcc g++ gfortran
 RUN apk --no-cache add musl-dev linux-headers g++
 
 COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+# RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir radiojavanapi
 
 COPY . .
 
