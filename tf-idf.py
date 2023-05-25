@@ -77,7 +77,7 @@ def main():
   
   kmeans = KMeans(n_clusters=465, random_state=42)
   
-  dbscan = DBSCAN(5,min_samples=20)
+  dbscan = DBSCAN(0.8,min_samples=20)
   dbscan.fit(X)
 
 
@@ -124,9 +124,6 @@ def dump_dataframe():
   df['cleaned'] = df['lyric'].apply(lambda x: preprocess(x))
   
   df.to_pickle('songs_lyrics.pkl')
-  
-  
-
 
 def check_json_file():
   with open('./processed_songs.local.json') as f:
@@ -162,7 +159,7 @@ def check_json_file():
     print()
     print()   
     for song in i:
-      print(type(song))
+      # print(song)
       print(song['name'], ', ', song['artist'])
     print(len(i))
       

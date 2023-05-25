@@ -170,5 +170,28 @@ def main2():
   print()
   print("songs collected: ", len(_songs))
 
+def get_artists():
+  client = Client()
+  with open('songs.local.json', 'r') as f:
+    songs = json.load(f)
+    
+  artists = []
+  for song in songs.values():
+    artists.append(song['artist'])
+    
+  print(len(set(artists)), len(artists))
+
+  artists_details = []
+
+  for artist in set(artists):
+    print(artist)
+    try:
+      artist_details = client.get_artist_by_name(artist)
+      artists_details.append(artist_details)
+    except:
+      pass
+  json.dump(artists_details,"artists_details.json")
+
 if __name__ == "__main__":
-  main2()
+  # main2()
+  get_artists()
