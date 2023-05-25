@@ -190,7 +190,8 @@ def get_artists():
       artists_details.append(artist_details)
     except:
       pass
-  json.dump(artists_details,"artists_details.json")
+  with open("artists_details.json", "w") as f:
+    json.dump(artists_details,f)
 
 if __name__ == "__main__":
   # main2()
