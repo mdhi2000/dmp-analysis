@@ -189,8 +189,9 @@ def get_artists():
 
     artists_details = []
 
-    for i in range(3000,3005):
-        artist = artists[i]
+    # for i in range(3000,3005):
+    #     artist = artists[i]
+    for artist in set(artists):
         print(artist)
         artist_details = client.get_artist_by_name(artist)
         temp = {
