@@ -177,6 +177,7 @@ def main2():
 
 
 def get_artists():
+    print("here")
     client = Client()
     with open('songs.local.json', 'r') as f:
         songs = json.load(f)
