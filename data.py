@@ -177,7 +177,6 @@ def main2():
 
 
 def get_artists():
-    print("here")
     client = Client()
     with open('songs.local.json', 'r') as f:
         songs = json.load(f)
@@ -215,7 +214,13 @@ def get_artists():
     with open("artists_details.json", "w") as f:
         json.dump(artists_details, f)
 
+def check_artists_file():
+  with open("artists_details.json", "r") as f:
+    artists_details = json.load(f)
+    
+  print(len(artists_details))
 
 if __name__ == "__main__":
     # main2()
-    get_artists()
+    # get_artists()
+    check_artists_file()
